@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marks</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #4a4a4a;
+        }
+
+        label {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #74ebd5;
+            outline: none;
+            box-shadow: 0 0 5px rgba(116, 235, 213, 0.5);
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        p#result {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        p#result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Internal Marks</h1>
+        <label for="studentInput">Enter Student Name or Register No:</label>
+        <input type="text" id="studentInput" placeholder="e.g., AADIL MOHAMMED RAFI or 711724UEC101">
+        <button onclick="displayInternalMark()">Get Marks</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        const studentInternalMarks = {
+            '711724UEC101': 33, 'AADIL MOHAMMED RAFI': 33,
+            '711724UEC102': 33, 'ABARNA M': 33,
+            '711724UEC103': 35, 'ABDULLA J': 35,
+            '711724UEC104': 29, 'ADITHIYAN K': 29,
+            '711724UEC105': 32, 'AKCHAYA R': 32,
+            '711724UEC106': 31, 'AKHILESH S': 31,
+            '711724UEC107': 35, 'AKSHAYA M': 35,
+            '711724UEC108': 37, 'ANANTH S': 37,
+            '711724UEC109': 39, 'ANDAL V': 39,
+            '711724UEC110': 29, 'ANGEL TAMILARASI P': 29,
+            '711724UEC111': 39, 'ANISH FATHIMA J': 39,
+            '711724UEC112': 39, 'ANURANJANI V': 39,
+            '711724UEC113': 24, 'ANUSHRI THIRUMAVALAVAN': 24,
+            '711724UEC114': 32, 'ANUSUYA A': 32,
+            '711724UEC115': 35, 'ARUN R': 35,
+            '711724UEC116': 37, 'ARUNKUMAR P': 37,
+            '711724UEC117': 28, 'ASHWIN K': 28,
+            '711724UEC118': 35, 'BALAMURUGAN R': 35,
+            '711724UEC119': 34, 'BHAAVANA K': 34,
+            '711724UEC120': 19, 'BHARATHLAKSHMI M': 19,
+            '711724UEC121': 38, 'BHAVASRI MAHALAKSHMI C': 38,
+            '711724UEC122': 37, 'CHRISTOBER A': 37,
+            '711724UEC123': 18, 'DAYALAN S': 18,
+            '711724UEC124': 27, 'DEEPAK M': 27,
+            '711724UEC125': 30, 'DEEPIKA M': 30,
+            '711724UEC126': 33, 'DHARANESH R': 33,
+            '711724UEC127': 26, 'DHARINEESH P S': 26,
+            '711724UEC128': 31, 'DHIVISHA R': 31,
+            '711724UEC129': 37, 'GAYATHIRI S': 37,
+            '711724UEC130': 33, 'HARINE M': 33,
+            '711724UEC131': 35, 'HARINI N': 35,
+            '711724UEC132': 32, 'HARINIKA D R': 32,
+            '711724UEC133': 32, 'HARISH S': 32,
+            '711724UEC134': 30, 'HARSHITHA P': 30,
+            '711724UEC135': 38, 'HARSHITHA SRI M': 38,
+            '711724UEC136': 35, 'HARSHITHAA S V': 35,
+            '711724UEC137': 32, 'HEERTHANA A S': 32,
+            '711724UEC138': 35, 'JANAMEJAY M': 35,
+            '711724UEC139': 38, 'JANNATHUL FIRDHOUSE T': 38,
+            '711724UEC140': 32, 'KAMESH KUMAR M': 32,
+            '711724UEC141': 31, 'KANISHKA V': 31,
+            '711724UEC142': 29, 'KANWAL KISHOR R R': 29,
+            '711724UEC143': 29, 'KARTHICK RAJA R': 29,
+            '711724UEC144': 37, 'KARTHIKEYAN C': 37,
+            '711724UEC145': 36, 'KATHIRVELU S': 36,
+            '711724UEC146': 26, 'KIRUTHIKA S': 26,
+            '711724UEC147': 34, 'KIRUTHIKA S': 34,
+            '711724UEC148': 33, 'KISHORE B': 33,
+            '711724UEC149': 34, 'KOUSHIK S V': 34,
+            '711724UEC150': 33, 'KUMARAVEL T': 33,
+            '711724UEC151': 38, 'LEENA SHRI B': 38,
+            '711724UEC152': 26, 'LYDIA E': 26,
+            '711724UEC153': 27, 'MADHAN PRASAD R': 27,
+            '711724UEC154': 21, 'MADHUBALA M': 21,
+            '711724UEC155': 28, 'MAGESH R': 28,
+            '711724UEC156': 36, 'MAHESWARI D': 36,
+            '711724UEC157': 34, 'MANISHA BHARATHI V': 34,
+            '711724UEC158': 37, 'MARZUK AHAMED S': 37,
+            '711724UEC159': 29, 'MITHUN G': 29,
+            '711724UEC160': 24, 'MOBIN K': 24,
+            '711724UEC161': 22, 'MOHAMMED ARIF M': 22,
+            '711724UEC162': 37, 'MONIKA N': 37,
+            '711724UEC163': 28, 'MONISHPRABHU A L': 28
+        };
+
+        function displayInternalMark() {
+            const input = document.getElementById('studentInput').value.toUpperCase();
+            const resultElement = document.getElementById('result');
+            const result = studentInternalMarks[input];
+
+            if (result) {
+                resultElement.textContent = `Calculus and Laplace Transform Internal Mark out of 40: ${result}`;
+                resultElement.className = 'show';
+            } else {
+                resultElement.textContent = 'Student not found';
+                resultElement.className = '';
+            }
+        }
+    </script>
+</body>
+</html>
